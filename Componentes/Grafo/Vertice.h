@@ -6,8 +6,9 @@
 #define GRAFOS_GRUPO_1_VERTICE_H
 
 #include <list>
+#include <iostream>
 
-class Aresta;
+#include "Aresta.h"
 
 class Vertice {
 public:
@@ -15,10 +16,12 @@ public:
     int grau;
     int peso;
     std::list<Aresta *> arestas;
+    int bipartidoFlag;
 
     Vertice(int id);
     Vertice(int id, int peso);
     ~Vertice() = default;
+    void imprimirAdjacentes();
 };
 
 

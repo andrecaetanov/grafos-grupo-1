@@ -87,17 +87,15 @@ Vertice* Grafo::getVertice(int id) {
 }
 
 int Grafo::retornarGrauVertice(int id) {
-    int grau = NULL;
-
     for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
         Vertice *vertice = *i;
 
         if (vertice->id == id) {
-            grau = vertice->grau;
+            return vertice->grau;
         }
     }
 
-    return grau;
+    return -1;
 }
 
 bool Grafo::verificarKRegularidade(int k) {
@@ -110,4 +108,90 @@ bool Grafo::verificarKRegularidade(int k) {
     }
 
     return true;
+}
+
+void Grafo::imprimirVizinhancaAberta(int id) {
+    if (possuiVertice(id)) {
+        for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
+            Vertice *vertice = *i;
+
+            if (vertice->id == id) {
+                cout << "Vizinhança aberta do Vértice " << vertice->id << ": ";
+                vertice->imprimirAdjacentes();
+            }
+        }
+    } else {
+        cout << "Vértice não existe no grafo." << endl;
+    }
+}
+
+void Grafo::imprimirVizinhancaFechada(int id) {
+    if (possuiVertice(id)) {
+        for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
+            Vertice *vertice = *i;
+
+            if (vertice->id == id) {
+                cout << "Vizinhança aberta do Vértice " << vertice->id << ": " << vertice->id << " ";
+                vertice->imprimirAdjacentes();
+            }
+        }
+    } else {
+        cout << "Vértice não existe no grafo." << endl;
+    }
+}
+
+bool Grafo::verificarGrafoCompleto() {
+    for (auto i = this->sequenciaGraus.begin(); i != this->sequenciaGraus.end(); i++) {
+        int grau = *i;
+
+        if (grau != this->ordem - 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Grafo::verificarGrafoBipartido() {
+    const int FLAG_SEM_PARTICAO = 0;
+    const int FLAG_PRIMEIRA_PARTICAO = 1;
+    const int FLAG_SEGUNDA_PARTICAO = 2;
+
+    for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
+        Vertice *vertice = *i;
+        int flagVertice = vertice->bipartidoFlag;
+
+        if(flagVertice == FLAG_SEM_PARTICAO) {
+            flagVertice = FLAG_PRIMEIRA_PARTICAO;
+        }
+
+        for (auto j = vertice->arestas.begin(); j != vertice->arestas.end(); j++) {
+            Aresta *aresta = *j;
+            int flagVerticeAdjacente = aresta->verticeAdjacente->bipartidoFlag;
+
+            if (flagVerticeAdjacente == FLAG_SEM_PARTICAO) {
+                if (flagVertice == FLAG_PRIMEIRA_PARTICAO ) {
+                    flagVerticeAdjacente = FLAG_SEGUNDA_PARTICAO;
+                } else {
+                    flagVerticeAdjacente = FLAG_PRIMEIRA_PARTICAO ;
+                }
+            } else if (flagVerticeAdjacente == flagVertice) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void Grafo::imprimirSequenciaGraus() {
+    cout << "Sequência de graus do grafo: ";
+
+    for (auto i = this->sequenciaGraus.begin(); i != this->sequenciaGraus.end(); i++) {
+        int grau = *i;
+
+        cout << grau << " ";
+    }
+
+    cout << endl;
 }

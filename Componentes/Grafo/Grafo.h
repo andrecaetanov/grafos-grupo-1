@@ -27,6 +27,11 @@ public:
     Vertice* getVertice(int id);
     int retornarGrauVertice(int id);
     bool verificarKRegularidade(int k);
+    void imprimirVizinhancaAberta(int id);
+    void imprimirVizinhancaFechada(int id);
+    bool verificarGrafoCompleto();
+    bool verificarGrafoBipartido();
+    void imprimirSequenciaGraus();
 };
 
 
