@@ -9,11 +9,11 @@
 
 class Aresta {
 public:
-    Vertice *vertice1;
-    Vertice *vertice2;
-    double peso;
+    Vertice *verticeAdjacente;
+    int peso;
 
-    Aresta(Vertice *vertice1, Vertice *vertice2, double peso);
+    Aresta(Vertice *verticeAdjacente);
+    Aresta(Vertice *verticeAdjacente, int peso);
     ~Aresta() = default;
 };
 

@@ -4,13 +4,13 @@
 
 #include "Vertice.h"
 
-Vertice::Vertice(int id, double peso) {
+Vertice::Vertice(int id) {
     this->id = id;
     this->grau = 0;
-    this->peso = peso;
 }
 
-Vertice::Vertice(double peso) {
-    this->grau = 0;
+Vertice::Vertice(int id, int peso) {
+    this->id = id;
     this->peso = peso;
+    this->grau = 0;
 }

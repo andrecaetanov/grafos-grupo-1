@@ -7,15 +7,17 @@
 
 #include <list>
 
+class Aresta;
+
 class Vertice {
 public:
     int id;
     int grau;
-    double peso;
-    std::list<Vertice *> verticesAdjacentes;
+    int peso;
+    std::list<Aresta *> arestas;
 
-    Vertice(int id, double peso);
-    Vertice(double peso);
+    Vertice(int id);
+    Vertice(int id, int peso);
     ~Vertice() = default;
 };
 
