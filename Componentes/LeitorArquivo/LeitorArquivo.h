@@ -15,8 +15,8 @@
 
 class LeitorArquivo {
 public:
-    void lerArquivo(std::string caminhoArquivo, Grafo &grafo);
-    void atribuirDados(std::ifstream &arquivo, Grafo &grafo);
+    static void lerArquivo(std::string caminhoArquivo, Grafo &grafo);
+    static void atribuirDados(std::ifstream &arquivo, Grafo &grafo);
 };
 
 

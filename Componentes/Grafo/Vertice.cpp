@@ -18,9 +18,7 @@ Vertice::Vertice(int id, int peso) {
 }
 
 void Vertice::imprimirAdjacentes() {
-    for (auto i = this->arestas.begin(); i != this->arestas.end(); i++) {
-        Aresta *aresta = *i;
-
+    for (auto aresta : this->arestas) {
         std::cout << aresta->verticeAdjacente->id << " ";
     }
 

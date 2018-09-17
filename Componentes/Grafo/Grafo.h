@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "Vertice.h"
+#include "Aresta.h"
 
 using namespace std;
 
@@ -20,11 +21,10 @@ public:
 
     Grafo();
     ~Grafo() = default;
-    void atualizarSequenciaGraus();
-    bool possuiVertice(int id);
+
+    // Funcionalidades exigidas
     void incluirVertice(int id);
     void excluirVertice(int id);
-    Vertice* getVertice(int id);
     int retornarGrauVertice(int id);
     bool verificarKRegularidade(int k);
     void imprimirVizinhancaAberta(int id);
@@ -32,6 +32,11 @@ public:
     bool verificarGrafoCompleto();
     bool verificarGrafoBipartido();
     void imprimirSequenciaGraus();
+
+    // Funções auxiliares
+    void atualizarSequenciaGraus();
+    bool possuiVertice(int id);
+    Vertice* getVertice(int id);
 };
 
 

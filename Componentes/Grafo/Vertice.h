@@ -18,9 +18,10 @@ public:
     std::list<Aresta *> arestas;
     int bipartidoFlag;
 
-    Vertice(int id);
+    explicit Vertice(int id);
     Vertice(int id, int peso);
     ~Vertice() = default;
+
     void imprimirAdjacentes();
 };
 

@@ -3,7 +3,6 @@
 //
 
 #include "Grafo.h"
-#include "Aresta.h"
 
 Grafo::Grafo() {
     this->ordem = 0;
@@ -12,8 +11,7 @@ Grafo::Grafo() {
 void Grafo::atualizarSequenciaGraus() {
     this->sequenciaGraus.clear();
 
-    for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
-        Vertice *vertice = *i;
+    for (auto vertice : this->vertices) {
         int grau = vertice->grau;
 
         this->sequenciaGraus.push_back(grau);
@@ -24,9 +22,7 @@ void Grafo::atualizarSequenciaGraus() {
 }
 
 bool Grafo::possuiVertice(int id) {
-    for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
-        Vertice *vertice = *i;
-
+    for (auto vertice : this->vertices) {
         if (vertice->id == id) {
             return true;
         }
@@ -37,13 +33,15 @@ bool Grafo::possuiVertice(int id) {
 
 void Grafo::incluirVertice(int id) {
     if (!possuiVertice(id)) {
-        Vertice *vertice = new Vertice(id);
+        auto *vertice = new Vertice(id);
         this->vertices.push_back(vertice);
 
         this->ordem++;
         atualizarSequenciaGraus();
+
+        cout << "Vertice incluido com sucesso." << endl;
     } else {
-        cout << "Vértice já existe no grafo." << endl;
+        cout << "O grafo ja contem dado vertice." << endl;
     }
 }
 
@@ -53,13 +51,14 @@ void Grafo::excluirVertice(int id) {
             Vertice *vertice = *i;
 
             if (vertice->id == id) {
-                this->vertices.erase(i);
+                i = this->vertices.erase(i);
             } else {
                 for (auto j = vertice->arestas.begin(); j != vertice->arestas.end(); j++) {
                     Aresta *aresta = *j;
 
                     if (aresta->verticeAdjacente->id == id) {
                         vertice->arestas.erase(j);
+                        break;
                     }
                 }
 
@@ -69,15 +68,15 @@ void Grafo::excluirVertice(int id) {
 
         this->ordem--;
         atualizarSequenciaGraus();
+
+        cout << "Vertice excluido com sucesso." << endl;
     } else {
-        cout << "Vértice não existe no grafo." << endl;
+        cout << "O grafo nao contem dado vertice." << endl;
     }
 }
 
 Vertice* Grafo::getVertice(int id) {
-    for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
-        Vertice *vertice = *i;
-
+    for (auto vertice : this->vertices) {
         if (vertice->id == id) {
             return vertice;
         }
@@ -87,9 +86,7 @@ Vertice* Grafo::getVertice(int id) {
 }
 
 int Grafo::retornarGrauVertice(int id) {
-    for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
-        Vertice *vertice = *i;
-
+    for (auto vertice : this->vertices) {
         if (vertice->id == id) {
             return vertice->grau;
         }
@@ -99,9 +96,7 @@ int Grafo::retornarGrauVertice(int id) {
 }
 
 bool Grafo::verificarKRegularidade(int k) {
-    for (auto i = this->sequenciaGraus.begin(); i != this->sequenciaGraus.end(); i++) {
-        int grau = *i;
-
+    for (int grau : this->sequenciaGraus) {
         if (grau != k) {
             return false;
         }
@@ -112,38 +107,32 @@ bool Grafo::verificarKRegularidade(int k) {
 
 void Grafo::imprimirVizinhancaAberta(int id) {
     if (possuiVertice(id)) {
-        for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
-            Vertice *vertice = *i;
-
+        for (auto vertice : this->vertices) {
             if (vertice->id == id) {
-                cout << "Vizinhança aberta do Vértice " << vertice->id << ": ";
+                cout << "Vizinhanca aberta do vertice " << vertice->id << ": ";
                 vertice->imprimirAdjacentes();
             }
         }
     } else {
-        cout << "Vértice não existe no grafo." << endl;
+        cout << "O grafo nao contem dado vertice." << endl;
     }
 }
 
 void Grafo::imprimirVizinhancaFechada(int id) {
     if (possuiVertice(id)) {
-        for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
-            Vertice *vertice = *i;
-
+        for (auto vertice : this->vertices) {
             if (vertice->id == id) {
-                cout << "Vizinhança aberta do Vértice " << vertice->id << ": " << vertice->id << " ";
+                cout << "Vizinhanca aberta do vertice " << vertice->id << ": " << vertice->id << " ";
                 vertice->imprimirAdjacentes();
             }
         }
     } else {
-        cout << "Vértice não existe no grafo." << endl;
+        cout << "O grafo nao contem dado vertice." << endl;
     }
 }
 
 bool Grafo::verificarGrafoCompleto() {
-    for (auto i = this->sequenciaGraus.begin(); i != this->sequenciaGraus.end(); i++) {
-        int grau = *i;
-
+    for (int grau : this->sequenciaGraus) {
         if (grau != this->ordem - 1) {
             return false;
         }
@@ -153,29 +142,25 @@ bool Grafo::verificarGrafoCompleto() {
 }
 
 bool Grafo::verificarGrafoBipartido() {
-    const int FLAG_SEM_PARTICAO = 0;
-    const int FLAG_PRIMEIRA_PARTICAO = 1;
-    const int FLAG_SEGUNDA_PARTICAO = 2;
+    enum Flag {
+        SEM_PARTICAO,
+        PRIMEIRA_PARTICAO,
+        SEGUNDA_PARTICAO,
+    };
 
-    for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
-        Vertice *vertice = *i;
-        int flagVertice = vertice->bipartidoFlag;
-
-        if(flagVertice == FLAG_SEM_PARTICAO) {
-            flagVertice = FLAG_PRIMEIRA_PARTICAO;
+    for (auto vertice : this->vertices) {
+        if(vertice->bipartidoFlag == Flag::SEM_PARTICAO) {
+            vertice->bipartidoFlag = Flag::PRIMEIRA_PARTICAO;
         }
 
-        for (auto j = vertice->arestas.begin(); j != vertice->arestas.end(); j++) {
-            Aresta *aresta = *j;
-            int flagVerticeAdjacente = aresta->verticeAdjacente->bipartidoFlag;
-
-            if (flagVerticeAdjacente == FLAG_SEM_PARTICAO) {
-                if (flagVertice == FLAG_PRIMEIRA_PARTICAO ) {
-                    flagVerticeAdjacente = FLAG_SEGUNDA_PARTICAO;
+        for (auto aresta : vertice->arestas) {
+            if (aresta->verticeAdjacente->bipartidoFlag == Flag::SEM_PARTICAO) {
+                if (vertice->bipartidoFlag == Flag::PRIMEIRA_PARTICAO) {
+                    aresta->verticeAdjacente->bipartidoFlag = Flag::SEGUNDA_PARTICAO;
                 } else {
-                    flagVerticeAdjacente = FLAG_PRIMEIRA_PARTICAO ;
+                    aresta->verticeAdjacente->bipartidoFlag = Flag::PRIMEIRA_PARTICAO;
                 }
-            } else if (flagVerticeAdjacente == flagVertice) {
+            } else if (aresta->verticeAdjacente->bipartidoFlag == vertice->bipartidoFlag) {
                 return false;
             }
         }
@@ -185,13 +170,15 @@ bool Grafo::verificarGrafoBipartido() {
 }
 
 void Grafo::imprimirSequenciaGraus() {
-    cout << "Sequência de graus do grafo: ";
+    if (this->ordem > 0) {
+        cout << "Sequencia de graus do grafo: ";
 
-    for (auto i = this->sequenciaGraus.begin(); i != this->sequenciaGraus.end(); i++) {
-        int grau = *i;
+        for (int grau : this->sequenciaGraus) {
+            cout << grau << " ";
+        }
 
-        cout << grau << " ";
+        cout << endl;
+    } else {
+        cout << "O grafo nao contem nenhum vertice." << endl;
     }
-
-    cout << endl;
 }

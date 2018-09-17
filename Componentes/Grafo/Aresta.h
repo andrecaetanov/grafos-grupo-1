@@ -12,7 +12,7 @@ public:
     Vertice *verticeAdjacente;
     int peso;
 
-    Aresta(Vertice *verticeAdjacente);
+    explicit Aresta(Vertice *verticeAdjacente);
     Aresta(Vertice *verticeAdjacente, int peso);
     ~Aresta() = default;
 };
