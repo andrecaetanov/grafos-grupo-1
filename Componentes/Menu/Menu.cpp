@@ -5,17 +5,19 @@
 #include "Menu.h"
 
 void Menu::exibirOpcoes() {
-    string opcoes[10] = {
+    string opcoes[12] = {
             "1 - Incluir vertice",
             "2 - Excluir vertice",
-            "3 - Retornar grau de um vertice",
-            "4 - Vertificar a k-regularidade",
-            "5 - Informar ordem do grafo",
-            "6 - Mostrar a vizinhanca aberta de um vertice",
-            "7 - Mostrar a vizinhanca fechada de um vertice",
-            "8 - Verificar se o grafo eh completo",
-            "9 - Verificar se o grafo eh bipartido",
-            "10 - Apresentar a sequencia de graus",
+            "3 - Incluir aresta",
+            "4 - Excluir aresta",
+            "5 - Retornar grau de um vertice",
+            "6 - Vertificar a k-regularidade",
+            "7 - Informar ordem do grafo",
+            "8 - Mostrar a vizinhanca aberta de um vertice",
+            "9 - Mostrar a vizinhanca fechada de um vertice",
+            "10 - Verificar se o grafo eh completo",
+            "11 - Verificar se o grafo eh bipartido",
+            "12 - Apresentar a sequencia de graus",
     };
 
     cout << "MENU:" << endl;
@@ -54,6 +56,30 @@ void Menu::selecionarOpcao(Grafo &grafo) {
         }
 
         case 3: {
+            int id1, id2;
+
+            cout << "Digite os IDs dos vertices:" << endl;
+            cin >> id1 >> id2;
+
+            grafo.excluirAresta(id1, id2);
+            break;
+        }
+
+        case 4: {
+            int id1, id2;
+            int peso;
+
+            cout << "Digite os IDs dos vertices:" << endl;
+            cin >> id1 >> id2;
+
+            cout << "Digite o peso da aresta:" << endl;
+            cin >> peso;
+
+            grafo.incluirAresta(id1, id2, peso);
+            break;
+        }
+
+        case 5: {
             int id;
             int grau;
 
@@ -70,7 +96,7 @@ void Menu::selecionarOpcao(Grafo &grafo) {
             break;
         }
 
-        case 4: {
+        case 6: {
             int id;
 
             cout << "Digite o valor de k:" << endl;
@@ -84,12 +110,12 @@ void Menu::selecionarOpcao(Grafo &grafo) {
             break;
         }
 
-        case 5: {
+        case 7: {
             cout << "Ordem do grafo: " << grafo.ordem << endl;
             break;
         }
 
-        case 6: {
+        case 8: {
             int id;
 
             cout << "Digite o ID do vertice:" << endl;
@@ -99,7 +125,7 @@ void Menu::selecionarOpcao(Grafo &grafo) {
             break;
         }
 
-        case 7: {
+        case 9: {
             int id;
 
             cout << "Digite o ID do vertice:" << endl;
@@ -109,7 +135,7 @@ void Menu::selecionarOpcao(Grafo &grafo) {
             break;
         }
 
-        case 8: {
+        case 10: {
             if (grafo.verificarGrafoCompleto()) {
                 cout << "O grafo eh completo." << endl;
             } else {
@@ -118,7 +144,7 @@ void Menu::selecionarOpcao(Grafo &grafo) {
             break;
         }
 
-        case 9: {
+        case 11: {
             if (grafo.verificarGrafoBipartido()) {
                 cout << "O grafo eh bipartido." << endl;
             } else {
@@ -127,7 +153,7 @@ void Menu::selecionarOpcao(Grafo &grafo) {
             break;
         }
 
-        case 10: {
+        case 12: {
             grafo.imprimirSequenciaGraus();
             break;
         }
@@ -154,7 +180,7 @@ void Menu::selecionarOutraOpcao(Grafo &grafo) {
     } else if (opcao == 2) {
         exit(0);
     } else {
-        cout << "Opção inválida." << endl;
+        cout << "Opcao invalida." << endl;
 
         selecionarOutraOpcao(grafo);
     }

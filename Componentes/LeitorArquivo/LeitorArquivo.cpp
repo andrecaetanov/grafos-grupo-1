@@ -44,9 +44,9 @@ void LeitorArquivo::atribuirDados(std::ifstream &arquivo, Grafo &grafo) {
         auto *aresta2 = new Aresta(vertice1, pesoAresta);
 
         vertice1->arestas.push_back(aresta1);
-        vertice2->arestas.push_back(aresta2);
-
         vertice1->grau++;
+
+        vertice2->arestas.push_back(aresta2);
         vertice2->grau++;
 
         grafo.atualizarSequenciaGraus();

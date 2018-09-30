@@ -85,6 +85,89 @@ Vertice* Grafo::getVertice(int id) {
     return nullptr;
 }
 
+bool Grafo::possuiAresta(int id1, int id2) {
+    for (auto vertice : this->vertices) {
+        if (vertice->id == id1) {
+            for (auto aresta : vertice->arestas) {
+                if (aresta->verticeAdjacente->id == id2) {
+                    return true;
+                }
+            }
+        }
+
+        if (vertice->id == id2) {
+            for (auto aresta : vertice->arestas) {
+                if (aresta->verticeAdjacente->id == id1) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+void Grafo::incluirAresta(int id1, int id2, int peso) {
+    if (!this->possuiAresta(id1, id2)) {
+        if (!this->possuiVertice(id1)) {
+            this->incluirVertice(id1);
+        }
+
+        if (!this->possuiVertice(id2)) {
+            this->incluirVertice(id2);
+        }
+
+        Vertice *vertice1 = this->getVertice(id1);
+        Vertice *vertice2 = this->getVertice(id2);
+
+        auto *aresta1 = new Aresta(vertice2, peso);
+        auto *aresta2 = new Aresta(vertice1, peso);
+
+        vertice1->arestas.push_back(aresta1);
+        vertice1->grau++;
+
+        vertice2->arestas.push_back(aresta2);
+        vertice2->grau++;
+
+        atualizarSequenciaGraus();
+
+        cout << "Aresta incluida com sucesso." << endl;
+    } else {
+        cout << "O grafo ja contem dada aresta." << endl;
+    }
+}
+
+void Grafo::excluirAresta(int id1, int id2) {
+    if (this->possuiAresta(id1, id2)) {
+        for (auto vertice : this->vertices) {
+            if (vertice->id == id1) {
+                for (auto i = vertice->arestas.begin(); i != vertice->arestas.end(); i++) {
+                    Aresta *aresta = *i;
+
+                    if (aresta->verticeAdjacente->id == id2) {
+                        vertice->arestas.erase(i);
+                    }
+                }
+            }
+
+            if (vertice->id == id2) {
+                for (auto i = vertice->arestas.begin(); i != vertice->arestas.end(); i++) {
+                    Aresta *aresta = *i;
+
+                    if (aresta->verticeAdjacente->id == id1) {
+                        vertice->arestas.erase(i);
+                    }
+                }
+            }
+        }
+
+        cout << "Aresta excluida com sucesso." << endl;
+
+    } else {
+        cout << "O grafo nao contem dada aresta." << endl;
+    }
+}
+
 int Grafo::retornarGrauVertice(int id) {
     for (auto vertice : this->vertices) {
         if (vertice->id == id) {

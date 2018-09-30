@@ -25,6 +25,8 @@ public:
     // Funcionalidades exigidas
     void incluirVertice(int id);
     void excluirVertice(int id);
+    void incluirAresta(int id1, int id2, int peso);
+    void excluirAresta(int id1, int id2);
     int retornarGrauVertice(int id);
     bool verificarKRegularidade(int k);
     void imprimirVizinhancaAberta(int id);
@@ -37,6 +39,7 @@ public:
     void atualizarSequenciaGraus();
     bool possuiVertice(int id);
     Vertice* getVertice(int id);
+    bool possuiAresta(int id1, int id2);
 };
 
 
