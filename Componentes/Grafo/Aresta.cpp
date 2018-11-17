@@ -4,6 +4,8 @@
 
 #include "Aresta.h"
 
+Aresta::Aresta() = default;
+
 Aresta::Aresta(Vertice *vertice1, Vertice *vertice2) {
     this->vertice1 = vertice1;
     this->vertice2 = vertice2;

@@ -5,6 +5,7 @@
 #include "Componentes/LeitorArquivo/LeitorArquivo.h"
 #include "Componentes/Menu/Menu.h"
 #include "Algoritmos/AlgoritmoKruskal.h"
+#include "Algoritmos/AlgoritmoPrim.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ int main() {
     grafo->incluirAresta(3, 5, 2);*/
 
     //AlgoritmoKruskal::encontrarArvoreGeradoraMinima(grafo);
+    //AlgoritmoPrim::encontrarArvoreGeradoraMinima(grafo);
 
     Menu::exibirOpcoes();
     Menu::selecionarOpcao(*grafo);

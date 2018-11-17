@@ -9,6 +9,8 @@
 #include <iostream>
 
 #include "../Grafo/Grafo.h"
+#include "../../Algoritmos/AlgoritmoKruskal.h"
+#include "../../Algoritmos/AlgoritmoPrim.h"
 
 using namespace std;
 
