@@ -3,9 +3,10 @@
 //
 
 #include "Menu.h"
+#include "../../Algoritmos/AlgoritmoKruskal.h"
 
 void Menu::exibirOpcoes() {
-    string opcoes[12] = {
+    string opcoes[13] = {
             "1 - Incluir vertice",
             "2 - Excluir vertice",
             "3 - Incluir aresta",
@@ -18,6 +19,7 @@ void Menu::exibirOpcoes() {
             "10 - Verificar se o grafo eh completo",
             "11 - Verificar se o grafo eh bipartido",
             "12 - Apresentar a sequencia de graus",
+            "13 - Encontrar arvore geradora minima usando algoritmo de Kruskal",
     };
 
     cout << "MENU:" << endl;
@@ -156,6 +158,10 @@ void Menu::selecionarOpcao(Grafo &grafo) {
         case 12: {
             grafo.imprimirSequenciaGraus();
             break;
+        }
+
+        case 13: {
+            AlgoritmoKruskal::encontrarArvoreGeradoraMinima(&grafo);
         }
 
         default: {
