@@ -17,6 +17,7 @@ class Grafo {
 public:
     int ordem;
     list<Vertice *> vertices;
+    list<Aresta *> arestas;
     list<int> sequenciaGraus;
 
     Grafo();
@@ -40,6 +41,7 @@ public:
     bool possuiVertice(int id);
     Vertice* getVertice(int id);
     bool possuiAresta(int id1, int id2);
+    bool ehConexo();
 };
 
 

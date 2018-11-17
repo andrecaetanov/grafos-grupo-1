@@ -53,11 +53,11 @@ void Grafo::excluirVertice(int id) {
             if (vertice->id == id) {
                 i = this->vertices.erase(i);
             } else {
-                for (auto j = vertice->arestas.begin(); j != vertice->arestas.end(); j++) {
-                    Aresta *aresta = *j;
+                for (auto j = vertice->verticesAdjacentes.begin(); j != vertice->verticesAdjacentes.end(); j++) {
+                    Vertice *verticeAdjacente = *j;
 
-                    if (aresta->verticeAdjacente->id == id) {
-                        vertice->arestas.erase(j);
+                    if (verticeAdjacente->id == id) {
+                        verticeAdjacente->verticesAdjacentes.erase(j);
                         break;
                     }
                 }
@@ -86,21 +86,10 @@ Vertice* Grafo::getVertice(int id) {
 }
 
 bool Grafo::possuiAresta(int id1, int id2) {
-    for (auto vertice : this->vertices) {
-        if (vertice->id == id1) {
-            for (auto aresta : vertice->arestas) {
-                if (aresta->verticeAdjacente->id == id2) {
-                    return true;
-                }
-            }
-        }
-
-        if (vertice->id == id2) {
-            for (auto aresta : vertice->arestas) {
-                if (aresta->verticeAdjacente->id == id1) {
-                    return true;
-                }
-            }
+    for (auto aresta: this->arestas) {
+        if ((aresta->vertice1->id == id1 && aresta->vertice2->id == id2)
+            || (aresta->vertice2->id == id1 && aresta->vertice1->id == id2)) {
+            return true;
         }
     }
 
@@ -120,13 +109,13 @@ void Grafo::incluirAresta(int id1, int id2, int peso) {
         Vertice *vertice1 = this->getVertice(id1);
         Vertice *vertice2 = this->getVertice(id2);
 
-        auto *aresta1 = new Aresta(vertice2, peso);
-        auto *aresta2 = new Aresta(vertice1, peso);
+        auto *aresta = new Aresta(vertice1, vertice2, peso);
+        this->arestas.push_back(aresta);
 
-        vertice1->arestas.push_back(aresta1);
+        vertice1->verticesAdjacentes.push_back(vertice2);
         vertice1->grau++;
 
-        vertice2->arestas.push_back(aresta2);
+        vertice2->verticesAdjacentes.push_back(vertice1);
         vertice2->grau++;
 
         atualizarSequenciaGraus();
@@ -139,25 +128,17 @@ void Grafo::incluirAresta(int id1, int id2, int peso) {
 
 void Grafo::excluirAresta(int id1, int id2) {
     if (this->possuiAresta(id1, id2)) {
-        for (auto vertice : this->vertices) {
-            if (vertice->id == id1) {
-                for (auto i = vertice->arestas.begin(); i != vertice->arestas.end(); i++) {
-                    Aresta *aresta = *i;
+        for (auto i = this->arestas.begin(); i != this->arestas.end(); i++) {
+            Aresta *aresta = *i;
+            Vertice *vertice1 = aresta->vertice1;
+            Vertice *vertice2 = aresta->vertice2;
 
-                    if (aresta->verticeAdjacente->id == id2) {
-                        vertice->arestas.erase(i);
-                    }
-                }
-            }
+            if ((vertice1->id == id1 && vertice2->id == id2)
+                || (vertice2->id == id1 && vertice1->id == id2)) {
+                this->arestas.erase(i);
 
-            if (vertice->id == id2) {
-                for (auto i = vertice->arestas.begin(); i != vertice->arestas.end(); i++) {
-                    Aresta *aresta = *i;
-
-                    if (aresta->verticeAdjacente->id == id1) {
-                        vertice->arestas.erase(i);
-                    }
-                }
+                vertice1->grau--;
+                vertice2->grau--;
             }
         }
 
@@ -236,14 +217,14 @@ bool Grafo::verificarGrafoBipartido() {
             vertice->bipartidoFlag = Flag::PRIMEIRA_PARTICAO;
         }
 
-        for (auto aresta : vertice->arestas) {
-            if (aresta->verticeAdjacente->bipartidoFlag == Flag::SEM_PARTICAO) {
+        for (auto verticeAdjacente : vertice->verticesAdjacentes) {
+            if (verticeAdjacente->bipartidoFlag == Flag::SEM_PARTICAO) {
                 if (vertice->bipartidoFlag == Flag::PRIMEIRA_PARTICAO) {
-                    aresta->verticeAdjacente->bipartidoFlag = Flag::SEGUNDA_PARTICAO;
+                    verticeAdjacente->bipartidoFlag = Flag::SEGUNDA_PARTICAO;
                 } else {
-                    aresta->verticeAdjacente->bipartidoFlag = Flag::PRIMEIRA_PARTICAO;
+                    verticeAdjacente->bipartidoFlag = Flag::PRIMEIRA_PARTICAO;
                 }
-            } else if (aresta->verticeAdjacente->bipartidoFlag == vertice->bipartidoFlag) {
+            } else if (verticeAdjacente->bipartidoFlag == vertice->bipartidoFlag) {
                 return false;
             }
         }
@@ -264,4 +245,8 @@ void Grafo::imprimirSequenciaGraus() {
     } else {
         cout << "O grafo nao contem nenhum vertice." << endl;
     }
+}
+
+bool Grafo::ehConexo() {
+    return true;
 }

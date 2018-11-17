@@ -4,11 +4,13 @@
 
 #include "Aresta.h"
 
-Aresta::Aresta(Vertice *verticeAdjacente) {
-    this->verticeAdjacente = verticeAdjacente;
+Aresta::Aresta(Vertice *vertice1, Vertice *vertice2) {
+    this->vertice1 = vertice1;
+    this->vertice2 = vertice2;
 }
 
-Aresta::Aresta(Vertice *verticeAdjacente, int peso) {
-    this->verticeAdjacente = verticeAdjacente;
+Aresta::Aresta(Vertice *vertice1, Vertice *vertice2, int peso) {
+    this->vertice1 = vertice1;
+    this->vertice2 = vertice2;
     this->peso = peso;
 }
