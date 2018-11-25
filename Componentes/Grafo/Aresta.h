@@ -5,7 +5,7 @@
 #ifndef GRAFOS_GRUPO_1_ARESTA_H
 #define GRAFOS_GRUPO_1_ARESTA_H
 
-class Vertice;
+#include "Vertice.h"
 
 class Aresta {
 public:

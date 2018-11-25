@@ -8,29 +8,6 @@ Grafo::Grafo() {
     this->ordem = 0;
 }
 
-void Grafo::atualizarSequenciaGraus() {
-    this->sequenciaGraus.clear();
-
-    for (auto vertice : this->vertices) {
-        int grau = vertice->grau;
-
-        this->sequenciaGraus.push_back(grau);
-    }
-
-    this->sequenciaGraus.sort();
-    this->sequenciaGraus.reverse();
-}
-
-bool Grafo::possuiVertice(int id) {
-    for (auto vertice : this->vertices) {
-        if (vertice->id == id) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 void Grafo::incluirVertice(int id) {
     if (!possuiVertice(id)) {
         auto *vertice = new Vertice(id);
@@ -47,26 +24,19 @@ void Grafo::incluirVertice(int id) {
 
 void Grafo::excluirVertice(int id) {
     if (possuiVertice(id)) {
-        for (auto i = this->vertices.begin(); i != this->vertices.end();) {
+        for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
             Vertice *vertice = *i;
 
             if (vertice->id == id) {
-                i = this->vertices.erase(i);
-            } else {
-                for (auto j = vertice->verticesAdjacentes.begin(); j != vertice->verticesAdjacentes.end(); j++) {
-                    Vertice *verticeAdjacente = *j;
+                vertice->arestas.erase(vertice->arestas.begin(), vertice->arestas.end());
+                this->vertices.erase(i);
 
-                    if (verticeAdjacente->id == id) {
-                        verticeAdjacente->verticesAdjacentes.erase(j);
-                        break;
-                    }
-                }
+                this->ordem--;
 
-                i++;
+                break;
             }
         }
 
-        this->ordem--;
         atualizarSequenciaGraus();
 
         cout << "Vertice excluido com sucesso." << endl;
@@ -75,28 +45,8 @@ void Grafo::excluirVertice(int id) {
     }
 }
 
-Vertice* Grafo::getVertice(int id) {
-    for (auto vertice : this->vertices) {
-        if (vertice->id == id) {
-            return vertice;
-        }
-    }
-
-    return nullptr;
-}
-
-bool Grafo::possuiAresta(int id1, int id2) {
-    for (auto aresta: this->arestas) {
-        if ((aresta->vertice1->id == id1 && aresta->vertice2->id == id2)
-            || (aresta->vertice2->id == id1 && aresta->vertice1->id == id2)) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 void Grafo::incluirAresta(int id1, int id2, int peso) {
+
     if (!this->possuiAresta(id1, id2)) {
         if (!this->possuiVertice(id1)) {
             this->incluirVertice(id1);
@@ -111,12 +61,6 @@ void Grafo::incluirAresta(int id1, int id2, int peso) {
 
         auto *aresta = new Aresta(vertice1, vertice2, peso);
         this->arestas.push_back(aresta);
-
-        vertice1->verticesAdjacentes.push_back(vertice2);
-        vertice1->grau++;
-
-        vertice2->verticesAdjacentes.push_back(vertice1);
-        vertice2->grau++;
 
         atualizarSequenciaGraus();
 
@@ -139,6 +83,8 @@ void Grafo::excluirAresta(int id1, int id2) {
 
                 vertice1->grau--;
                 vertice2->grau--;
+
+                break;
             }
         }
 
@@ -156,7 +102,7 @@ int Grafo::retornarGrauVertice(int id) {
         }
     }
 
-    return -1;
+    return -1; // -1 caso vértice não exista no grafo
 }
 
 bool Grafo::verificarKRegularidade(int k) {
@@ -245,6 +191,50 @@ void Grafo::imprimirSequenciaGraus() {
     } else {
         cout << "O grafo nao contem nenhum vertice." << endl;
     }
+}
+
+void Grafo::atualizarSequenciaGraus() {
+    this->sequenciaGraus.clear();
+
+    for (auto vertice : this->vertices) {
+        int grau = vertice->grau;
+
+        this->sequenciaGraus.push_back(grau);
+    }
+
+    this->sequenciaGraus.sort();
+    this->sequenciaGraus.reverse();
+}
+
+bool Grafo::possuiVertice(int id) {
+    for (auto vertice : this->vertices) {
+        if (vertice->id == id) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+Vertice* Grafo::getVertice(int id) {
+    for (auto vertice : this->vertices) {
+        if (vertice->id == id) {
+            return vertice;
+        }
+    }
+
+    return nullptr;
+}
+
+bool Grafo::possuiAresta(int id1, int id2) {
+    for (auto aresta: this->arestas) {
+        if ((aresta->vertice1->id == id1 && aresta->vertice2->id == id2)
+            || (aresta->vertice2->id == id1 && aresta->vertice1->id == id2)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool Grafo::ehConexo() {

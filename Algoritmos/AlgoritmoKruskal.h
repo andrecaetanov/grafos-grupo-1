@@ -15,7 +15,7 @@ class AlgoritmoKruskal {
 public:
     static void encontrarArvoreGeradoraMinima(Grafo *grafo);
     static bool arestaFormaCiclo(Vertice *vertice1, Vertice *vertice2);
-    static void imprimirSolucao(Grafo *Grafo);
+    static void imprimirSolucao(Grafo *grafo);
 };
 
 

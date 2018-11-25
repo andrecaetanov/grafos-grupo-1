@@ -26,8 +26,6 @@ void AlgoritmoPrim::encontrarArvoreGeradoraMinima(Grafo *grafo) {
             }
 
             arvoreGeradoraMinima->arestas.push_back(aresta);
-            vertice1->verticesAdjacentes.push_back(vertice2);
-            vertice2->verticesAdjacentes.push_back(vertice1);
         }
 
         imprimirSolucao(arvoreGeradoraMinima);

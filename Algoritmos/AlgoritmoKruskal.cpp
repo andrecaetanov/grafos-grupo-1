@@ -16,23 +16,22 @@ void AlgoritmoKruskal::encontrarArvoreGeradoraMinima(Grafo *grafo) {
 
         for (auto i = arestas.begin(); arvoreGeradoraMinima->arestas.size() < grafo->vertices.size() - 1; i++) {
             Aresta *aresta = *i;
-            auto *vertice1 = new Vertice(aresta->vertice1->id);
-            auto *vertice2 = new Vertice(aresta->vertice2->id);
+
+            if (!arvoreGeradoraMinima->possuiVertice(aresta->vertice1->id)) {
+                arvoreGeradoraMinima->vertices.push_back(new Vertice(aresta->vertice1->id));
+            }
+
+            if (!arvoreGeradoraMinima->possuiVertice(aresta->vertice2->id)) {
+                arvoreGeradoraMinima->vertices.push_back(new Vertice(aresta->vertice2->id));
+            }
+
+            Vertice *vertice1 = arvoreGeradoraMinima->getVertice(aresta->vertice1->id);
+            Vertice *vertice2 = arvoreGeradoraMinima->getVertice(aresta->vertice2->id);
 
             if (!arestaFormaCiclo(vertice1, vertice2)) {
                 auto *novaAresta = new Aresta(vertice1, vertice2, aresta->peso);
 
-                if (!arvoreGeradoraMinima->possuiVertice(vertice1->id)) {
-                    arvoreGeradoraMinima->vertices.push_back(vertice1);
-                }
-
-                if (!arvoreGeradoraMinima->possuiVertice(vertice2->id)) {
-                    arvoreGeradoraMinima->vertices.push_back(vertice2);
-                }
-
                 arvoreGeradoraMinima->arestas.push_back(novaAresta);
-                vertice1->verticesAdjacentes.push_back(vertice2);
-                vertice2->verticesAdjacentes.push_back(vertice1);
             }
         }
 

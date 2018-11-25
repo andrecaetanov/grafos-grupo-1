@@ -8,12 +8,15 @@
 #include <list>
 #include <iostream>
 
+class Aresta;
+
 class Vertice {
 public:
     int id;
     int grau;
     int peso;
     std::list<Vertice *> verticesAdjacentes;
+    std::list<Aresta *> arestas;
     int bipartidoFlag;
 
     explicit Vertice(int id);
