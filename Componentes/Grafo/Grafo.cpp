@@ -8,6 +8,15 @@ Grafo::Grafo() {
     this->ordem = 0;
 }
 
+// deep copy
+Grafo::Grafo(const Grafo &grafo) {
+    this->ordem = grafo.ordem;
+    this->vertices = grafo.vertices;
+    this->arestas = grafo.arestas;
+    this->sequenciaGraus = grafo.sequenciaGraus;
+    this->custo = grafo.custo;
+}
+
 void Grafo::incluirVertice(int id) {
     if (!possuiVertice(id)) {
         auto *vertice = new Vertice(id);
@@ -216,7 +225,7 @@ bool Grafo::possuiVertice(int id) {
     return false;
 }
 
-Vertice* Grafo::getVertice(int id) {
+Vertice *Grafo::getVertice(int id) {
     for (auto vertice : this->vertices) {
         if (vertice->id == id) {
             return vertice;
@@ -235,6 +244,17 @@ bool Grafo::possuiAresta(int id1, int id2) {
     }
 
     return false;
+}
+
+Aresta *Grafo::getAresta(int id1, int id2) {
+    for (auto aresta : this->arestas) {
+        if ((aresta->vertice1->id == id1 && aresta->vertice2->id == id2)
+            || (aresta->vertice1->id == id2 && aresta->vertice2->id == id1)) {
+            return aresta;
+        }
+    }
+
+    return nullptr;
 }
 
 bool Grafo::ehConexo() {

@@ -7,6 +7,7 @@
 
 #include <list>
 #include <iostream>
+#include <limits>
 
 class Aresta;
 
@@ -18,12 +19,16 @@ public:
     std::list<Vertice *> verticesAdjacentes;
     std::list<Aresta *> arestas;
     int bipartidoFlag;
+    int distancia; // usada no algoritmo de dijkstra
+    float beneficio; // benefício associado ao problema de Árvore de Steienr com Coleta de Prêmios
 
+    Vertice();
     explicit Vertice(int id);
     Vertice(int id, int peso);
     ~Vertice() = default;
 
     void imprimirAdjacentes();
+    void calcularBeneficio();
 };
 
 

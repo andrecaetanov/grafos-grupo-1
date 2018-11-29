@@ -4,10 +4,13 @@
 
 #include "Vertice.h"
 
+Vertice::Vertice() = default;
+
 Vertice::Vertice(int id) {
     this->id = id;
     this->grau = 0;
     this->bipartidoFlag = 0;
+    this->distancia = std::numeric_limits<int>::max();
 }
 
 Vertice::Vertice(int id, int peso) {
@@ -15,6 +18,7 @@ Vertice::Vertice(int id, int peso) {
     this->peso = peso;
     this->grau = 0;
     this->bipartidoFlag = 0;
+    this->distancia = std::numeric_limits<int>::max();
 }
 
 void Vertice::imprimirAdjacentes() {

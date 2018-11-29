@@ -19,8 +19,10 @@ public:
     list<Vertice *> vertices;
     list<Aresta *> arestas;
     list<int> sequenciaGraus;
+    int custo; // custo associado ao problema de Árvore de Steiner com Coleta de Prêmios
 
     Grafo();
+    Grafo(const Grafo &grafo);
     ~Grafo() = default;
 
     // Funcionalidades exigidas
@@ -39,8 +41,9 @@ public:
     // Funções auxiliares
     void atualizarSequenciaGraus();
     bool possuiVertice(int id);
-    Vertice* getVertice(int id);
+    Vertice *getVertice(int id);
     bool possuiAresta(int id1, int id2);
+    Aresta *getAresta(int id1, int id2);
     bool ehConexo();
 };
 
