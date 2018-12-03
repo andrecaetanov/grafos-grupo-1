@@ -5,7 +5,7 @@
 #include "Menu.h"
 
 void Menu::exibirOpcoes() {
-    string opcoes[14] = {
+    string opcoes[15] = {
             "1 - Incluir vertice",
             "2 - Excluir vertice",
             "3 - Incluir aresta",
@@ -20,6 +20,7 @@ void Menu::exibirOpcoes() {
             "12 - Apresentar a sequencia de graus",
             "13 - Encontrar arvore geradora minima usando algoritmo de Kruskal",
             "14 - Encontrar arvore geradora minima usando algoritmo de Prim",
+            "15 - Encontrar o caminho mínimo entre dois vértices usando algoritmo de Dijkstra"
     };
 
     cout << "MENU:" << endl;
@@ -32,6 +33,8 @@ void Menu::exibirOpcoes() {
 
 void Menu::selecionarOpcao(Grafo &grafo) {
     int opcaoDesejada;
+
+    cout << "TRABALHO PRATICO DCC059 - GRUPO 1" << endl << endl;
 
     cout << "Informe o valor da opcao desejada:" << endl;
     cin >> opcaoDesejada;
@@ -166,6 +169,15 @@ void Menu::selecionarOpcao(Grafo &grafo) {
 
         case 14: {
             AlgoritmoPrim::encontrarArvoreGeradoraMinima(&grafo);
+        }
+
+        case 15: {
+            int id1, id2;
+
+            cout << "Digite os IDs dos vértices:" << endl;
+            cin >> id1 >> id2;
+
+            AlgoritmoDijkstra::apresentarCustoCaminhoMinimo(&grafo, id1, id2);
         }
 
         default: {

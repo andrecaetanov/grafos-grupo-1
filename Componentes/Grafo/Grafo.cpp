@@ -258,5 +258,5 @@ Aresta *Grafo::getAresta(int id1, int id2) {
 }
 
 bool Grafo::ehConexo() {
-    return true;
+    return true; // return temporário
 }

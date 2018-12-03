@@ -11,6 +11,7 @@
 #include "../Grafo/Grafo.h"
 #include "../../Algoritmos/AlgoritmoKruskal.h"
 #include "../../Algoritmos/AlgoritmoPrim.h"
+#include "../../Algoritmos/AlgoritmoDijkstra.h"
 
 using namespace std;
 
